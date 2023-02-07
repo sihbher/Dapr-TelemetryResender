@@ -1,0 +1,33 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: pubsub-resender
+#  namespace: climeworks-rabbitmq
+spec:
+  type: bindings.azure.servicebus
+  metadata:
+  - name: connectionString
+    value: "[Connection String]"
+  - name: topicName
+    value: "huichapan"
+  - name: subscriptionName
+    value: "huichapan-subscription"
+  - name: maxConcurrentCalls
+    value: "1"
+
+---
+apiVersion: dapr.io/v2alpha1
+kind: Subscription
+metadata:
+  name: myevent-subscription
+#  namespace: climeworks-rabbitmq
+spec:
+  pubsubname: pubsub-resender
+  topic: huichapan
+  routes:
+    default: /process
+scopes:
+  - sub
+  - netcorepub
+  - netcoresub
+  - telemetryresender
