@@ -1,0 +1,36 @@
+apiVersion: dapr.io/v2alpha1
+kind: Subscription
+metadata:
+  name: myevent-subscription-otigin
+#  namespace: your-namespace
+spec:
+  pubsubname: pubsub-resender-origin
+  topic: huichapan
+  routes:
+    default: /process
+scopes:
+  - telemetryresender
+
+---
+
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: pubsub-resender-origin
+#  namespace: your-namespace
+spec:
+  version: v1
+  type: pubsub.azure.servicebus
+  metadata:
+  - name: connectionString
+    secretKeyRef:
+      key: pubsub-resender-origin-secret
+      name: connectionString
+  - name: topicName
+    value: "topic_name"
+  - name: subscriptionName
+    value: "subscription_name"
+  - name: "consumerID"
+    value: "consumer_group_name"
+  - name: maxConcurrentCalls
+    value: "1"

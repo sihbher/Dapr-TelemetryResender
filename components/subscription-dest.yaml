@@ -1,0 +1,18 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: pubsub-resender-destiny
+spec:
+  type: pubsub.rabbitmq
+  version: v1
+  metadata:
+  - name: connectionString
+    secretKeyRef:
+      key: pubsub-resender-destiny-secret
+      name: connectionString
+  - name: exchange
+    value: your_exchange_name
+  - name: durable
+    value: "true"
+scopes:
+  - telemetryresender
