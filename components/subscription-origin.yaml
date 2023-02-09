@@ -5,7 +5,7 @@ metadata:
 #  namespace: your-namespace
 spec:
   pubsubname: pubsub-resender-origin
-  topic: huichapan
+  topic: topic_name
   routes:
     default: /process
 scopes:
