@@ -15,7 +15,7 @@ scopes:
 
 apiVersion: dapr.io/v1alpha1
 kind: Component
-metadata:
+metadata: 
   name: pubsub-resender-origin
 #  namespace: your-namespace
 spec:
