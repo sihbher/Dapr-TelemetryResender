@@ -27,11 +27,12 @@ public class ProcessController : ControllerBase
     public async Task<IActionResult> Run([FromBody] object body)
     {
         _logger.LogInformation("Received request");
-        _logger.LogInformation(body.ToString());
+        string json = body.ToString();
+        _logger.LogInformation(json);
 
         try
         {
-            await SendToOutput(body);
+            await SendToOutput(json);
             return Ok();
         }
         catch (Exception ex)
@@ -42,13 +43,14 @@ public class ProcessController : ControllerBase
         }
     }
 
-    private async Task SendToOutput(object body)
+    private async Task SendToOutput(string message)
     {
         try
         {
             string url = $"http://localhost:{daprPort}/v1.0/publish/{pubsubComponentDestiny}/{topicName}";
             _logger.LogInformation($"Sending to output ({url})");
-            var content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
+            _logger.LogInformation($"Message: {message}");
+            var content = new StringContent(message, Encoding.UTF8, "application/json");
             var response = await client.PostAsync(url, content);
             Console.WriteLine($"Result:{response.ToString()} ");
         }
